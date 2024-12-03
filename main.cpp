@@ -1,8 +1,9 @@
-#include <iostream>
+#include "glfwgeneral.h"
 using namespace std;
 
 int main()
 {
-	cout << "Hello CMake." << endl;
+	GlfwWrapper glfwWrapper;
+	glfwWrapper.RunWindowLoop();
 	return 0;
 }

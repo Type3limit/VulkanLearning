@@ -30,4 +30,4 @@
 #define NOMINMAX                     //定义该宏可避免windows.h中的min和max两个宏与标准库中的函数名冲突
 #pragma comment(lib, "vulkan-1.lib") //链接编译所需的静态存根库
 #endif
-#include <vulkan/vulkan.h>
+#include "helper.h"

@@ -1,3 +1,4 @@
 bin
 .vs
 out
+/CMakePresets.json
