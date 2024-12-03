@@ -93,5 +93,5 @@ handle = VK_NULL_HANDLE;\
 
 #define ExecuteOnce(...) { static bool executed = false; if (executed) return __VA_ARGS__; executed = true; }
 
-//inline auto& outStream = std::cout;//不是constexpr，因为std::cout具有外部链接
+inline auto& outStream = std::cout;//不是constexpr，因为std::cout具有外部链接
 

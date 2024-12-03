@@ -361,7 +361,7 @@ namespace vulkan {
 			.ppEnabledExtensionNames = instanceExtensions.data()
 		};
 		if (Result result = vkCreateInstance(&instanceCreateInfo, nullptr, &instance)) {
-			std::cout << std::format("[ graphicsBase ] ERROR\nFailed to create a vulkan instance!\nError code: {}\n", int32_t(result));
+			std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to create a vulkan instance!\nError code: {}\n", int32_t(result));
 			return result;
 		}
 		std::cout << std::format(
@@ -780,10 +780,92 @@ namespace vulkan {
 					return result;
 				break; //注意重建交换链后仍需要获取图像，通过break递归，再次执行while的条件判定语句
 			default:
-				outStream << std::format("[ graphicsBase ] ERROR\nFailed to acquire the next image!\nError code: {}\n", int32_t(result));
+				outStream << std::format("[ GraphicsBase ] ERROR\nFailed to acquire the next image!\nError code: {}\n", int32_t(result));
 				return result;
 			}
 		return VK_SUCCESS;
+	}
+
+	Result GraphicsBase::SubmitCommandBufferGraphics(VkSubmitInfo& submitInfo, VkFence fence) const
+	{
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		VkResult result = vkQueueSubmit(queue_graphics, 1, &submitInfo, fence);
+		if (result)
+			outStream << std::format("[ GraphicsBase ] ERROR\nFailed to submit the command buffer!\nError code: {}\n", int32_t(result));
+		return result;
+	}
+
+	Result GraphicsBase::SubmitCommandBufferGraphics(VkCommandBuffer commandBuffer, VkSemaphore semaphore_imageIsAvailable, VkSemaphore semaphore_renderingIsOver, VkFence fence, VkPipelineStageFlags waitDstStage_imageIsAvailable) const
+	{
+		
+				VkSubmitInfo submitInfo = {
+					.commandBufferCount = 1,
+					.pCommandBuffers = &commandBuffer
+				};
+				if (semaphore_imageIsAvailable)
+					submitInfo.waitSemaphoreCount = 1,
+					submitInfo.pWaitSemaphores = &semaphore_imageIsAvailable,
+					submitInfo.pWaitDstStageMask = &waitDstStage_imageIsAvailable;
+				if (semaphore_renderingIsOver)
+					submitInfo.signalSemaphoreCount = 1,
+					submitInfo.pSignalSemaphores = &semaphore_renderingIsOver;
+				return SubmitCommandBufferGraphics(submitInfo, fence);
+	
+	}
+
+	Result GraphicsBase::SubmitCommandBufferGraphics(VkCommandBuffer commandBuffer, VkFence fence) const
+	{
+		VkSubmitInfo submitInfo = {
+		.commandBufferCount = 1,
+		.pCommandBuffers = &commandBuffer
+		};
+		return SubmitCommandBufferGraphics(submitInfo, fence);
+	}
+
+	Result GraphicsBase::SubmitCommandBufferCompute(VkSubmitInfo& submitInfo, VkFence fence) const
+	{
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		VkResult result = vkQueueSubmit(queue_compute, 1, &submitInfo, fence);
+		if (result)
+			outStream << std::format("[ GraphicsBase ] ERROR\nFailed to submit the command buffer!\nError code: {}\n", int32_t(result));
+		return result;
+	}
+
+	Result GraphicsBase::SubmitCommandBufferCompute(VkCommandBuffer commandBuffer, VkFence fence) const
+	{
+		VkSubmitInfo submitInfo = {
+	   .commandBufferCount = 1,
+	   .pCommandBuffers = &commandBuffer
+		};
+		return SubmitCommandBufferCompute(submitInfo, fence);
+	}
+
+	Result GraphicsBase::PresentImage(VkPresentInfoKHR& presentInfo)
+	{
+		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+		switch (VkResult result = vkQueuePresentKHR(queue_presentation, &presentInfo)) {
+		case VK_SUCCESS:
+			return VK_SUCCESS;
+		case VK_SUBOPTIMAL_KHR:
+		case VK_ERROR_OUT_OF_DATE_KHR:
+			return RecreateSwapchain();
+		default:
+			outStream << std::format("[ graphicsBase ] ERROR\nFailed to queue the image for presentation!\nError code: {}\n", int32_t(result));
+			return result;
+		}
+	}
+
+	Result GraphicsBase::PresentImage(VkSemaphore semaphore_renderingIsOver)
+	{
+		VkPresentInfoKHR presentInfo = {
+		.swapchainCount = 1,
+		.pSwapchains = &swapchain,
+		.pImageIndices = &currentImageIndex
+		};
+		if (semaphore_renderingIsOver)
+			presentInfo.waitSemaphoreCount = 1,
+			presentInfo.pWaitSemaphores = &semaphore_renderingIsOver;
+		return PresentImage(presentInfo);
 	}
 
 	void GraphicsBase::Terminate()

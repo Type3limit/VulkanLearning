@@ -111,6 +111,17 @@ namespace vulkan
 		uint32_t CurrentImageIndex() const;
 		Result SwapImage(VkSemaphore semaphore_imageIsAvailable);
 
+		Result SubmitCommandBufferGraphics(VkSubmitInfo& submitInfo, VkFence fence = VK_NULL_HANDLE) const;
+		Result SubmitCommandBufferGraphics(VkCommandBuffer commandBuffer,
+			VkSemaphore semaphore_imageIsAvailable = VK_NULL_HANDLE, VkSemaphore semaphore_renderingIsOver = VK_NULL_HANDLE, VkFence fence = VK_NULL_HANDLE,
+			VkPipelineStageFlags waitDstStage_imageIsAvailable = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT) const;
+		Result SubmitCommandBufferGraphics(VkCommandBuffer commandBuffer, VkFence fence = VK_NULL_HANDLE) const;
+		Result SubmitCommandBufferCompute(VkSubmitInfo& submitInfo, VkFence fence = VK_NULL_HANDLE) const;
+		Result SubmitCommandBufferCompute(VkCommandBuffer commandBuffer, VkFence fence = VK_NULL_HANDLE) const;
+
+		Result PresentImage(VkPresentInfoKHR& presentInfo);
+		Result PresentImage(VkSemaphore semaphore_renderingIsOver = VK_NULL_HANDLE);
+
 		void Terminate();
 		// 静态函数
 		static GraphicsBase& Base();

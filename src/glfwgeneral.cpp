@@ -36,15 +36,26 @@ int GlfwWrapper::RunWindowLoop()
 		vulkan::Semaphore semaphore_imageIsAvailable;
 		vulkan::Semaphore semaphore_renderingIsOver;
 
-		while (!glfwWindowShouldClose(m_pWindow)) {
+		vulkan::CommandBuffer commandBuffer;
+		vulkan::CommandPool commandPool(vulkan::GraphicsBase::Base().QueueFamilyIndex_Graphics(), VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
+		commandPool.AllocateBuffers(commandBuffer);
 
-			/*äÖÈ¾¹ý³Ì£¬´ýÌî³ä*/
+		while (!glfwWindowShouldClose(m_pWindow)) {
+			//´°¿Ú×îÐ¡»¯Ê±×èÈûäÖÈ¾Ñ­»·
+			while (glfwGetWindowAttrib(m_pWindow, GLFW_ICONIFIED))
+				glfwWaitEvents();
+
 			fence.WaitAndReset();
 
 			vulkan::GraphicsBase::Base().SwapImage(semaphore_imageIsAvailable);
 
-			glfwPollEvents();
+			commandBuffer.Begin(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+			/*äÖÈ¾ÃüÁî£¬´ýÌî³ä*/
+			commandBuffer.End();
 
+			vulkan::GraphicsBase::Base().SubmitCommandBufferGraphics(commandBuffer, semaphore_imageIsAvailable, semaphore_renderingIsOver, fence);
+			vulkan::GraphicsBase::Base().PresentImage(semaphore_renderingIsOver);
+			glfwPollEvents();
 			TitleFps();
 		}
 		TerminateWindow();
