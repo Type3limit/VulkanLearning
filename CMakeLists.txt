@@ -31,7 +31,8 @@ src/glfwgeneral.cpp
 src/vkbase.cpp
 include/helper.h 
 include/synchronization.h 
-include/command.h)
+include/command.h 
+include/renderBuffer.h)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin/${BUILD_TYPE})
 

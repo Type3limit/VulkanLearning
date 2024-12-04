@@ -5,6 +5,7 @@
 
 #include "globalinclude.h"
 #include "singleton.hpp"
+#define windowSize vulkan::GraphicsBase::Base().SwapchainCreateInfo().imageExtent
 namespace vulkan
 {
 	/*
@@ -44,7 +45,6 @@ namespace vulkan
 		   |在将一张图像用于渲染或其他类型的写入时，已渲染好的图像可以被呈现引擎读取，如此交替呈现在窗口中的数张图像的集合即为交换链
 		----------------------------------------------
 		*/
-
 	class GraphicsBase
 	{
 	
@@ -195,6 +195,75 @@ namespace vulkan
 		Result GetQueueFamilyIndices(VkPhysicalDevice physicalDevice, bool enableGraphicsQueue, bool enableComputeQueue, uint32_t(&queueFamilyIndices)[3]);
 		Result CreateDebugMessenger();
 
+	};
+	class RenderPass {
+		VkRenderPass handle = VK_NULL_HANDLE;
+	public:
+		RenderPass() = default;
+		RenderPass(VkRenderPassCreateInfo& createInfo) {
+			Create(createInfo);
+		}
+		RenderPass(RenderPass&& other) noexcept { MoveHandle; }
+		~RenderPass() { DestroyHandleBy(vkDestroyRenderPass); }
+		//Getter
+		DefineHandleTypeOperator;
+		DefineAddressFunction;
+		//Const Function
+		void CmdBegin(VkCommandBuffer commandBuffer, VkRenderPassBeginInfo& beginInfo, VkSubpassContents subpassContents = VK_SUBPASS_CONTENTS_INLINE) const {
+			beginInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+			beginInfo.renderPass = handle;
+			vkCmdBeginRenderPass(commandBuffer, &beginInfo, subpassContents);
+		}
+		void CmdBegin(VkCommandBuffer commandBuffer, VkFramebuffer Framebuffer, VkRect2D renderArea, 
+			ArrayRef<const VkClearValue> clearValues = {},
+			VkSubpassContents subpassContents = VK_SUBPASS_CONTENTS_INLINE) const 
+		{
+			VkRenderPassBeginInfo beginInfo = {
+				.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO,
+				.renderPass = handle,
+				.framebuffer = Framebuffer,
+				.renderArea = renderArea,
+				.clearValueCount = uint32_t(clearValues.Count()),
+				.pClearValues = clearValues.Pointer()
+			};
+			vkCmdBeginRenderPass(commandBuffer, &beginInfo, subpassContents);
+		}
+		void CmdNext(VkCommandBuffer commandBuffer, VkSubpassContents subpassContents = VK_SUBPASS_CONTENTS_INLINE) const {
+			vkCmdNextSubpass(commandBuffer, subpassContents);
+		}
+		void CmdEnd(VkCommandBuffer commandBuffer) const {
+			vkCmdEndRenderPass(commandBuffer);
+		}
+		//Non-const Function
+		Result Create(VkRenderPassCreateInfo& createInfo) {
+			createInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
+			VkResult result = vkCreateRenderPass(GraphicsBase::Base().Device(), &createInfo, nullptr, &handle);
+			if (result)
+				outStream << std::format("[ RenderPass ] ERROR\nFailed to create a render pass!\nError code: {}\n", int32_t(result));
+			return result;
+		}
+	};
+
+	class Framebuffer {
+		VkFramebuffer handle = VK_NULL_HANDLE;
+	public:
+		Framebuffer() = default;
+		Framebuffer(VkFramebufferCreateInfo& createInfo) {
+			Create(createInfo);
+		}
+		Framebuffer(Framebuffer&& other) noexcept { MoveHandle; }
+		~Framebuffer() { DestroyHandleBy(vkDestroyFramebuffer); }
+		//Getter
+		DefineHandleTypeOperator;
+		DefineAddressFunction;
+		//Non-const Function
+		Result Create(VkFramebufferCreateInfo& createInfo) {
+			createInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+			VkResult result = vkCreateFramebuffer(GraphicsBase::Base().Device(), &createInfo, nullptr, &handle);
+			if (result)
+				outStream << std::format("[ Framebuffer ] ERROR\nFailed to create a Framebuffer!\nError code: {}\n", int32_t(result));
+			return result;
+		}
 	};
 
 } // namespace vulkan

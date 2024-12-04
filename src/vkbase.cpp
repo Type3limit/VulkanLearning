@@ -560,7 +560,7 @@ namespace vulkan {
 			return result;
 		}
 
-		//获取交换连图像
+		//获取交换链图像
 		uint32_t swapchainImageCount;
 		if (Result result = vkGetSwapchainImagesKHR(device, swapchain, &swapchainImageCount, nullptr)) {
 			std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to get the count of swapchain images!\nError code: {}\n", int32_t(result));
@@ -668,6 +668,7 @@ namespace vulkan {
 		swapchainCreateInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 		swapchainCreateInfo.flags = flags;
 		swapchainCreateInfo.surface = surface;
+		swapchainCreateInfo.imageArrayLayers = 1;
 		swapchainCreateInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 		swapchainCreateInfo.clipped = VK_TRUE;
 
