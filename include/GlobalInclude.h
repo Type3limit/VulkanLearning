@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -17,7 +17,7 @@
 
 //GLM
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
-//Èç¹ûÄã¹ßÓÃ×óÊÖ×ø±êÏµ£¬ÔÚ´Ë¶¨ÒåGLM_FORCE_LEFT_HANDED
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½Ú´Ë¶ï¿½ï¿½ï¿½GLM_FORCE_LEFT_HANDED
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 
@@ -25,9 +25,9 @@
 #include <stb_image.h>
 
 //Vulkan
-#ifdef _WIN32                        //¿¼ÂÇÆ½Ì¨ÊÇWindowsµÄÇé¿ö£¨Çë×ÔÐÐ½â¾öÆäËûÆ½Ì¨ÉÏµÄ²îÒì£©
-#define VK_USE_PLATFORM_WIN32_KHR    //ÔÚ°üº¬vulkan.hÇ°¶¨Òå¸Ãºê£¬»áÒ»²¢°üº¬vulkan_win32.hºÍwindows.h
-#define NOMINMAX                     //¶¨Òå¸Ãºê¿É±ÜÃâwindows.hÖÐµÄminºÍmaxÁ½¸öºêÓë±ê×¼¿âÖÐµÄº¯ÊýÃû³åÍ»
-#pragma comment(lib, "vulkan-1.lib") //Á´½Ó±àÒëËùÐèµÄ¾²Ì¬´æ¸ù¿â
+#ifdef _WIN32                        //ï¿½ï¿½ï¿½ï¿½Æ½Ì¨ï¿½ï¿½Windowsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ½Ì¨ï¿½ÏµÄ²ï¿½ï¿½ì£©
+#define VK_USE_PLATFORM_WIN32_KHR    //ï¿½Ú°ï¿½ï¿½ï¿½vulkan.hÇ°ï¿½ï¿½ï¿½ï¿½Ãºê£¬ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½vulkan_win32.hï¿½ï¿½windows.h
+#define NOMINMAX                     //ï¿½ï¿½ï¿½ï¿½Ãºï¿½É±ï¿½ï¿½ï¿½windows.hï¿½Ðµï¿½minï¿½ï¿½maxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½ÐµÄºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í»
+#pragma comment(lib, "vulkan-1.lib") //ï¿½ï¿½ï¿½Ó±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½
 #endif
 #include "helper.h"

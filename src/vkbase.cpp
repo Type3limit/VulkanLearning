@@ -1,16 +1,16 @@
-#include "vkbase.h"
+ï»¿#include "vkbase.h"
 
 namespace vulkan {
 
 	constexpr VkExtent2D defaultWindowSize = { 1280, 720 };
 
-	// ¾²Ì¬³ÉÔ±¶¨Òå
+	// ï¿½ï¿½Ì¬ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
 	GraphicsBase GraphicsBase::singleton;
-	// ¾²Ì¬º¯ÊýÊµÏÖ
+	// ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 	GraphicsBase& GraphicsBase::Base() {
 		return singleton;
 	}
-	// Îö¹¹º¯Êý
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	GraphicsBase::~GraphicsBase() {
 		if (!instance)
 			return;
@@ -49,35 +49,35 @@ namespace vulkan {
 		auto& [ig, ip, ic] = queueFamilyIndices;
 		ig = ip = ic = VK_QUEUE_FAMILY_IGNORED;
 		for (uint32_t i = 0; i < queueFamilyCount; i++) {
-			//ÕâÈý¸öVkBool32±äÁ¿Ö¸Ê¾ÊÇ·ñ¿É»ñÈ¡£¨Ö¸Ó¦¸Ã±»»ñÈ¡ÇÒÄÜ»ñÈ¡£©ÏàÓ¦¶ÓÁÐ×åË÷Òý
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½VkBool32ï¿½ï¿½ï¿½ï¿½Ö¸Ê¾ï¿½Ç·ï¿½É»ï¿½È¡ï¿½ï¿½Ö¸Ó¦ï¿½Ã±ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ü»ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			VkBool32
-				//Ö»ÔÚenableGraphicsQueueÎªtrueÊ±»ñÈ¡Ö§³ÖÍ¼ÐÎ²Ù×÷µÄ¶ÓÁÐ×åµÄË÷Òý
+				//Ö»ï¿½ï¿½enableGraphicsQueueÎªtrueÊ±ï¿½ï¿½È¡Ö§ï¿½ï¿½Í¼ï¿½Î²ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				supportGraphics = (enableGraphicsQueue && (queueFamilyPropertieses[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)),
 				supportPresentation = false,
-				//Ö»ÔÚenableComputeQueueÎªtrueÊ±»ñÈ¡Ö§³Ö¼ÆËãµÄ¶ÓÁÐ×åµÄË÷Òý
+				//Ö»ï¿½ï¿½enableComputeQueueÎªtrueÊ±ï¿½ï¿½È¡Ö§ï¿½Ö¼ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				supportCompute = (enableComputeQueue && (queueFamilyPropertieses[i].queueFlags & VK_QUEUE_COMPUTE_BIT));
-			//Ö»ÔÚ´´½¨ÁËwindow surfaceÊ±»ñÈ¡Ö§³Ö³ÊÏÖµÄ¶ÓÁÐ×åµÄË÷Òý
+			//Ö»ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½window surfaceÊ±ï¿½ï¿½È¡Ö§ï¿½Ö³ï¿½ï¿½ÖµÄ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (surface)
 				if (Result result = vkGetPhysicalDeviceSurfaceSupportKHR(physicalDevice, i, surface, &supportPresentation)) {
 					std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to determine if the queue family supports presentation!\nError code: {}\n", int32_t(result));
 					return result;
 				}
-			//ÈôÄ³¶ÓÁÐ×åÍ¬Ê±Ö§³ÖÍ¼ÐÎ²Ù×÷ºÍ¼ÆËã
+			//ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬Ê±Ö§ï¿½ï¿½Í¼ï¿½Î²ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½
 			if (supportGraphics && supportCompute) {
-				//ÈôÐèÒª³ÊÏÖ£¬×îºÃÊÇÈý¸ö¶ÓÁÐ×åË÷ÒýÈ«²¿ÏàÍ¬
+				//ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½Í¬
 				if (supportPresentation) {
 					ig = ip = ic = i;
 					break;
 				}
-				//³ý·ÇigºÍic¶¼ÒÑÈ¡µÃÇÒÏàÍ¬£¬·ñÔò½«ËüÃÇµÄÖµ¸²Ð´Îªi£¬ÒÔÈ·±£Á½¸ö¶ÓÁÐ×åË÷ÒýÏàÍ¬
+				//ï¿½ï¿½ï¿½ï¿½igï¿½ï¿½icï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½Öµï¿½ï¿½Ð´Îªiï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬
 				if (ig != ic ||
 					ig == VK_QUEUE_FAMILY_IGNORED)
 					ig = ic = i;
-				//Èç¹û²»ÐèÒª³ÊÏÖ£¬ÄÇÃ´ÒÑ¾­¿ÉÒÔbreakÁË
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½Ã´ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½breakï¿½ï¿½
 				if (!surface)
 					break;
 			}
-			//ÈôÈÎºÎÒ»¸ö¶ÓÁÐ×åË÷Òý¿ÉÒÔ±»È¡µÃµ«ÉÐÎ´±»È¡µÃ£¬½«ÆäÖµ¸²Ð´Îªi
+			//ï¿½ï¿½ï¿½Îºï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½È¡ï¿½Ãµï¿½ï¿½ï¿½Î´ï¿½ï¿½È¡ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½Ð´Îªi
 			if (supportGraphics &&
 				ig == VK_QUEUE_FAMILY_IGNORED)
 				ig = i;
@@ -131,7 +131,7 @@ namespace vulkan {
 		return VK_RESULT_MAX_ENUM;
 	}
 
-	// Getterº¯ÊýÊµÏÖ
+	// Getterï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 	uint32_t GraphicsBase::ApiVersion() const {
 		return apiVersion;
 	}
@@ -236,28 +236,28 @@ namespace vulkan {
 		return deviceExtensions;
 	}
 
-	// Const³ÉÔ±º¯ÊýÊµÏÖ
+	// Constï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 	Result GraphicsBase::CheckInstanceLayers(std::span<const char*> layersToCheck) const
 	{
-		//´´½¨VulkanÊµÀýÊ§°ÜÊ±¼ì²éÊÇ·ñ¿ÉÒÔÈ¥µôÒ»Ð©·Ç±ØÒªµÄ²ã»òÀ©Õ¹¡£
+		//ï¿½ï¿½ï¿½ï¿½VulkanÊµï¿½ï¿½Ê§ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½È¥ï¿½ï¿½Ò»Ð©ï¿½Ç±ï¿½Òªï¿½Ä²ï¿½ï¿½ï¿½ï¿½Õ¹ï¿½ï¿½
 		uint32_t layerCount;
 		std::vector<VkLayerProperties> availableLayers;
 
 
-		///Result VKAPI_CALL vkEnumerateInstanceLayerProperties(...) µÄ²ÎÊýËµÃ÷
+		///Result VKAPI_CALL vkEnumerateInstanceLayerProperties(...) ï¿½Ä²ï¿½ï¿½ï¿½Ëµï¿½ï¿½
 		///uint32_t* pPropertyCount 
-		///    ÈôpPropertiesÎªnullptr£¬Ôò½«¿ÉÓÃ²ãµÄÊýÁ¿·µ»Øµ½* pPropertyCount£¬
-		///    ·ñÔòÓÉ* pPropertyCountÖ¸¶¨ËùÐè»ñÈ¡µÄVkLayerPropertiesµÄÊýÁ¿
+		///    ï¿½ï¿½pPropertiesÎªnullptrï¿½ï¿½ï¿½ò½«¿ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½* pPropertyCountï¿½ï¿½
+		///    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½* pPropertyCountÖ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½VkLayerPropertiesï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		///VkLayerProperties* pProperties
-		///    ÈôpProperties·Çnullptr£¬Ôò½«* pPropertyCount¸ö¿ÉÓÃ²ãµÄVkLayerProperties·µ»Øµ½* pProperties
-		if (Result result = vkEnumerateInstanceLayerProperties(&layerCount, nullptr)) //Ê×ÏÈÈ¡µÃ¿ÉÓÃ²ãµÄ×ÜÊý
+		///    ï¿½ï¿½pPropertiesï¿½ï¿½nullptrï¿½ï¿½ï¿½ï¿½* pPropertyCountï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½VkLayerPropertiesï¿½ï¿½ï¿½Øµï¿½* pProperties
+		if (Result result = vkEnumerateInstanceLayerProperties(&layerCount, nullptr)) //ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ã¿ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		{
 			std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to get the count of instance layers!\n");
 			return result;
 		}
 
-		///ÈôlayerCountÎª0£¬ÔòËµÃ÷Ã»ÓÐÈÎºÎ¿ÉÓÃ²ã£¨ËäÈ»Ã»Õâ¸ö¿ÉÄÜ£©£¬·ñÔòÇ¶Ì×Ñ­»·Öð¸ö±È½Ï×Ö·û´®£¬
-		///ÈôÃ»ÓÐÕÒµ½Ä³¸ö²ãµÄÃû³Æ£¬½«layersToCheckÖÐ¶ÔÓ¦µÄ×Ö·û´®Ö¸ÕëÉèÖÃÎªnullptr£º
+		///ï¿½ï¿½layerCountÎª0ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½Ã»ï¿½ï¿½ï¿½ÎºÎ¿ï¿½ï¿½Ã²ã£¨ï¿½ï¿½È»Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½
+		///ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Òµï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½layersToCheckï¿½Ð¶ï¿½Ó¦ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªnullptrï¿½ï¿½
 		if (layerCount)
 		{
 			availableLayers.resize(layerCount);
@@ -282,7 +282,7 @@ namespace vulkan {
 				i = nullptr;
 		}
 
-		//Ò»ÇÐË³ÀûÔò·µ»ØVK_SUCCESS
+		//Ò»ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ò·µ»ï¿½VK_SUCCESS
 		return VK_SUCCESS;
 	}
 
@@ -319,11 +319,11 @@ namespace vulkan {
 	}
 
 	Result GraphicsBase::CheckDeviceExtensions(std::span<const char*> extensionsToCheck, const char* layerName) const {
-		// ´ýCh1-3Ìî³ä
+		// ï¿½ï¿½Ch1-3ï¿½ï¿½ï¿½
 		return VK_SUCCESS;
 	}
 
-	// ·ÇConst³ÉÔ±º¯ÊýÊµÏÖ
+	// ï¿½ï¿½Constï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 	void GraphicsBase::AddInstanceLayer(const char* layerName) {
 		instanceLayers.push_back(layerName);
 	}
@@ -400,33 +400,33 @@ namespace vulkan {
 	}
 
 	Result GraphicsBase::DeterminePhysicalDevice(uint32_t deviceIndex, bool enableGraphicsQueue, bool enableComputeQueue) {
-		//¶¨ÒåÒ»¸öÌØÊâÖµÓÃÓÚ±ê¼ÇÒ»¸ö¶ÓÁÐ×åË÷ÒýÒÑ±»ÕÒ¹ýµ«Î´ÕÒµ½
+		//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½Ú±ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½Î´ï¿½Òµï¿½
 		static constexpr uint32_t notFound = INT32_MAX;//== VK_QUEUE_FAMILY_IGNORED & INT32_MAX
-		//¶¨Òå¶ÓÁÐ×åË÷Òý×éºÏµÄ½á¹¹Ìå
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÄ½á¹¹ï¿½ï¿½
 		struct queueFamilyIndexCombination {
 			uint32_t graphics = VK_QUEUE_FAMILY_IGNORED;
 			uint32_t presentation = VK_QUEUE_FAMILY_IGNORED;
 			uint32_t compute = VK_QUEUE_FAMILY_IGNORED;
 		};
-		//queueFamilyIndexCombinationsÓÃÓÚÎª¸÷¸öÎïÀíÉè±¸±£´æÒ»·Ý¶ÓÁÐ×åË÷Òý×éºÏ
+		//queueFamilyIndexCombinationsï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Ý¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		static std::vector<queueFamilyIndexCombination> queueFamilyIndexCombinations(availablePhysicalDevices.size());
 		auto& [ig, ip, ic] = queueFamilyIndexCombinations[deviceIndex];
 
-		//Èç¹ûÓÐÈÎºÎ¶ÓÁÐ×åË÷ÒýÒÑ±»ÕÒ¹ýµ«Î´ÕÒµ½£¬·µ»ØVK_RESULT_MAX_ENUM
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎºÎ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½Î´ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½VK_RESULT_MAX_ENUM
 		if (ig == notFound && enableGraphicsQueue ||
 			ip == notFound && surface ||
 			ic == notFound && enableComputeQueue)
 			return VK_RESULT_MAX_ENUM;
 
-		//Èç¹ûÓÐÈÎºÎ¶ÓÁÐ×åË÷ÒýÓ¦±»»ñÈ¡µ«»¹Î´±»ÕÒ¹ý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎºÎ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½Ò¹ï¿½
 		if (ig == VK_QUEUE_FAMILY_IGNORED && enableGraphicsQueue ||
 			ip == VK_QUEUE_FAMILY_IGNORED && surface ||
 			ic == VK_QUEUE_FAMILY_IGNORED && enableComputeQueue) {
 			uint32_t indices[3];
 			Result result = GetQueueFamilyIndices(availablePhysicalDevices[deviceIndex], enableGraphicsQueue, enableComputeQueue, indices);
-			//ÈôGetQueueFamilyIndices(...)·µ»ØVK_SUCCESS»òVK_RESULT_MAX_ENUM£¨vkGetPhysicalDeviceSurfaceSupportKHR(...)Ö´ÐÐ³É¹¦µ«Ã»ÕÒÆëËùÐè¶ÓÁÐ×å£©£¬
-			//ËµÃ÷¶ÔËùÐè¶ÓÁÐ×åË÷ÒýÒÑÓÐ½áÂÛ£¬±£´æ½á¹ûµ½queueFamilyIndexCombinations[deviceIndex]ÖÐÏàÓ¦±äÁ¿
-			//Ó¦±»»ñÈ¡µÄË÷ÒýÈôÈÔÎªVK_QUEUE_FAMILY_IGNORED£¬ËµÃ÷Î´ÕÒµ½ÏàÓ¦¶ÓÁÐ×å£¬VK_QUEUE_FAMILY_IGNORED£¨~0u£©ÓëINT32_MAX×öÎ»ÓëµÃµ½µÄÊýÖµµÈÓÚnotFound
+			//ï¿½ï¿½GetQueueFamilyIndices(...)ï¿½ï¿½ï¿½ï¿½VK_SUCCESSï¿½ï¿½VK_RESULT_MAX_ENUMï¿½ï¿½vkGetPhysicalDeviceSurfaceSupportKHR(...)Ö´ï¿½Ð³É¹ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å£©ï¿½ï¿½
+			//Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½Û£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½queueFamilyIndexCombinations[deviceIndex]ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½
+			//Ó¦ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªVK_QUEUE_FAMILY_IGNOREDï¿½ï¿½Ëµï¿½ï¿½Î´ï¿½Òµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½å£¬VK_QUEUE_FAMILY_IGNOREDï¿½ï¿½~0uï¿½ï¿½ï¿½ï¿½INT32_MAXï¿½ï¿½Î»ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½notFound
 			if (result == VK_SUCCESS ||
 				result == VK_RESULT_MAX_ENUM) {
 				if (enableGraphicsQueue)
@@ -436,12 +436,12 @@ namespace vulkan {
 				if (enableComputeQueue)
 					ic = indices[2] & INT32_MAX;
 			}
-			//Èç¹ûGetQueueFamilyIndices(...)Ö´ÐÐÊ§°Ü£¬return
+			//ï¿½ï¿½ï¿½GetQueueFamilyIndices(...)Ö´ï¿½ï¿½Ê§ï¿½Ü£ï¿½return
 			if (result)
 				return result;
 		}
 
-		//ÈôÒÔÉÏÁ½¸öif·ÖÖ§½Ô²»Ö´ÐÐ£¬ÔòËµÃ÷ËùÐèµÄ¶ÓÁÐ×åË÷Òý½ÔÒÑ±»»ñÈ¡£¬´ÓqueueFamilyIndexCombinations[deviceIndex]ÖÐÈ¡µÃË÷Òý
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ifï¿½ï¿½Ö§ï¿½Ô²ï¿½Ö´ï¿½Ð£ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ±ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½queueFamilyIndexCombinations[deviceIndex]ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		else {
 			queueFamilyIndex_graphics = enableGraphicsQueue ? ig : VK_QUEUE_FAMILY_IGNORED;
 			queueFamilyIndex_presentation = surface ? ip : VK_QUEUE_FAMILY_IGNORED;
@@ -499,7 +499,7 @@ namespace vulkan {
 			vkGetDeviceQueue(device, queueFamilyIndex_compute, 0, &queue_compute);
 		vkGetPhysicalDeviceProperties(physicalDevice, &physicalDeviceProperties);
 		vkGetPhysicalDeviceMemoryProperties(physicalDevice, &physicalDeviceMemoryProperties);
-		//Êä³öËùÓÃµÄÎïÀíÉè±¸Ãû³Æ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è±¸ï¿½ï¿½ï¿½ï¿½
 		std::cout << std::format("Renderer: {}\n", physicalDeviceProperties.deviceName);
 		for (auto& i : callbacks_createDevice)
 			i();
@@ -525,7 +525,7 @@ namespace vulkan {
 	Result GraphicsBase::SetSurfaceFormat(VkSurfaceFormatKHR surfaceFormat) {
 		bool formatIsAvailable = false;
 		if (!surfaceFormat.format) {
-			//Èç¹û¸ñÊ½Î´Ö¸¶¨£¬Ö»Æ¥ÅäÉ«²Ê¿Õ¼ä£¬Í¼Ïñ¸ñÊ½ÓÐÉ¶¾ÍÓÃÉ¶
+			//ï¿½ï¿½ï¿½ï¿½ï¿½Ê½Î´Ö¸ï¿½ï¿½ï¿½ï¿½Ö»Æ¥ï¿½ï¿½É«ï¿½Ê¿Õ¼ä£¬Í¼ï¿½ï¿½ï¿½Ê½ï¿½ï¿½É¶ï¿½ï¿½ï¿½ï¿½É¶
 			for (auto& i : availableSurfaceFormats)
 				if (i.colorSpace == surfaceFormat.colorSpace) {
 					swapchainCreateInfo.imageFormat = i.format;
@@ -535,7 +535,7 @@ namespace vulkan {
 				}
 		}
 		else
-			//·ñÔòÆ¥Åä¸ñÊ½ºÍÉ«²Ê¿Õ¼ä
+			//ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½Ê½ï¿½ï¿½É«ï¿½Ê¿Õ¼ï¿½
 			for (auto& i : availableSurfaceFormats)
 				if (i.format == surfaceFormat.format &&
 					i.colorSpace == surfaceFormat.colorSpace) {
@@ -544,10 +544,10 @@ namespace vulkan {
 					formatIsAvailable = true;
 					break;
 				}
-		//Èç¹ûÃ»ÓÐ·ûºÏµÄ¸ñÊ½£¬Ç¡ºÃÓÐ¸öÓïÒåÏà·ûµÄ´íÎó´úÂë
+		//ï¿½ï¿½ï¿½Ã»ï¿½Ð·ï¿½ï¿½ÏµÄ¸ï¿½Ê½ï¿½ï¿½Ç¡ï¿½ï¿½ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (!formatIsAvailable)
 			return VK_ERROR_FORMAT_NOT_SUPPORTED;
-		//Èç¹û½»»»Á´ÒÑ´æÔÚ£¬µ÷ÓÃRecreateSwapchain()ÖØ½¨½»»»Á´
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½RecreateSwapchain()ï¿½Ø½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (swapchain)
 			return RecreateSwapchain();
 		return VK_SUCCESS;
@@ -560,7 +560,7 @@ namespace vulkan {
 			return result;
 		}
 
-		//»ñÈ¡½»»»Á´Í¼Ïñ
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½
 		uint32_t swapchainImageCount;
 		if (Result result = vkGetSwapchainImagesKHR(device, swapchain, &swapchainImageCount, nullptr)) {
 			std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to get the count of swapchain images!\nError code: {}\n", int32_t(result));
@@ -572,13 +572,13 @@ namespace vulkan {
 			return result;
 		}
 
-		//´´½¨image view
+		//ï¿½ï¿½ï¿½ï¿½image view
 		swapchainImageViews.resize(swapchainImageCount);
 		VkImageViewCreateInfo imageViewCreateInfo = {
 			.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO,
 			.viewType = VK_IMAGE_VIEW_TYPE_2D,
 			.format = swapchainCreateInfo.imageFormat,
-			//.components = {},//ËÄ¸ö³ÉÔ±½ÔÎªVK_COMPONENT_SWIZZLE_IDENTITY
+			//.components = {},//ï¿½Ä¸ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ÎªVK_COMPONENT_SWIZZLE_IDENTITY
 			.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 }
 		};
 		for (size_t i = 0; i < swapchainImageCount; i++) {
@@ -604,7 +604,7 @@ namespace vulkan {
 				glm::clamp(defaultWindowSize.width, surfaceCapabilities.minImageExtent.width, surfaceCapabilities.maxImageExtent.width),
 				glm::clamp(defaultWindowSize.height, surfaceCapabilities.minImageExtent.height, surfaceCapabilities.maxImageExtent.height) } :
 				surfaceCapabilities.currentExtent;
-		/*´ýºóÐøÌî³ä*/
+		/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 
 		if (surfaceCapabilities.supportedCompositeAlpha & VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR)
 			swapchainCreateInfo.compositeAlpha = VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR;
@@ -629,10 +629,10 @@ namespace vulkan {
 				return result;
 
 		if (!swapchainCreateInfo.imageFormat)
-			//ÓÃ&&²Ù×÷·ûÀ´¶ÌÂ·Ö´ÐÐ
+			//ï¿½ï¿½&&ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·Ö´ï¿½ï¿½
 			if (SetSurfaceFormat({ VK_FORMAT_R8G8B8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR }) &&
 				SetSurfaceFormat({ VK_FORMAT_B8G8R8A8_UNORM, VK_COLOR_SPACE_SRGB_NONLINEAR_KHR })) {
-				//Èç¹ûÕÒ²»µ½ÉÏÊöÍ¼Ïñ¸ñÊ½ºÍÉ«²Ê¿Õ¼äµÄ×éºÏ£¬ÄÇÖ»ÄÜÓÐÊ²Ã´ÓÃÊ²Ã´£¬²ÉÓÃavailableSurfaceFormatsÖÐµÄµÚÒ»×é
+				//ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Ê½ï¿½ï¿½É«ï¿½Ê¿Õ¼ï¿½ï¿½ï¿½ï¿½Ï£ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½Ê²Ã´ï¿½ï¿½Ê²Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½availableSurfaceFormatsï¿½ÐµÄµï¿½Ò»ï¿½ï¿½
 				swapchainCreateInfo.imageFormat = availableSurfaceFormats[0].format;
 				swapchainCreateInfo.imageColorSpace = availableSurfaceFormats[0].colorSpace;
 				std::cout << std::format("[ GraphicsBase ] WARNING\nFailed to select a four-component UNORM surface format!\n");
@@ -646,12 +646,7 @@ namespace vulkan {
 		if (!surfacePresentModeCount)
 			std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to find any surface present mode!\n"),
 			abort();
-		/*
-		VK_PRESENT_MODE_IMMEDIATE_KHR±íÊ¾Á¢¼´Ä£Ê½£¬¸ÃÄ£Ê½ÏÂ²»ÏÞÖÆÖ¡ÂÊÇÒÖ¡ÂÊÔÚËùÓÐÄ£Ê½ÖÐÊÇ×î¸ßµÄ¡£¸ÃÄ£Ê½²»µÈ´ý´¹Ö±Í¬²½ÐÅºÅ£¬Ò»µ©Í¼Æ¬äÖÈ¾Íê£¬ÓÃÓÚ³ÊÏÖµÄÍ¼Ïñ¾Í»á±»Á¢¿ÌÌæ»»µô£¬Õâ¿ÉÄÜµ¼ÖÂ»­ÃæËºÁÑ¡£
-		VK_PRESENT_MODE_FIFO_KHR±íÊ¾ÏÈÈëÏÈ³öÄ£Ê½£¬¸ÃÄ£Ê½ÏÞÖÆÖ¡ÂÊÓëÆÁÄ»Ë¢ÐÂÂÊÒ»ÖÂ£¬ÕâÖÖÄ£Ê½ÊÇ±Ø¶¨Ö§³ÖµÄ¡£ÔÚ¸ÃÄ£Ê½ÏÂ£¬Í¼Ïñ±»ÍÆËÍ½øÒ»¸öÓÃÓÚ´ý³ÊÏÖÍ¼ÏñµÄ¶ÓÁÐ£¬È»ºóµÈ´ý´¹Ö±Í¬²½ÐÅºÅ£¬°´Ë³Ðò±»ÍÆ³ö¶ÓÁÐ²¢Êä³öµ½ÆÁÄ»£¬Òò´Ë½ÐÏÈÈëÏÈ³ö¡£
-		VK_PRESENT_MODE_FIFO_RELAXED_KHRÍ¬VK_PRESENT_MODE_FIFO_KHRµÄ²î±ðÔÚÓÚ£¬ÈôÆÁÄ»ÉÏÍ¼ÏñµÄÍ£ÁôÊ±¼ä³¤ÓÚÒ»¸öË¢ÐÂ¼ä¸ô£¬³ÊÏÖÒýÇæ¿ÉÄÜÔÚÏÂÒ»¸ö´¹Ö±Í¬²½ÐÅºÅµ½À´Ç°±ãÊÔÍ¼½«³ÊÏÖ¶ÓÁÐÖÐµÄÍ¼ÏñÊä³öµ½ÆÁÄ»£¬¸ÃÄ£Ê½Ïà±ÈVK_PRESENT_MODE_FIFO_KHR¸ü²»ÈÝÒ×ÒýÆð×èÈû»ò³ÙÖÍ£¬µ«ÔÚÖ¡ÂÊ½ÏµÍÊ±¿ÉÄÜ»áµ¼ÖÂ»­ÃæËºÁÑ¡£
-		VK_PRESENT_MODE_MAILBOX_KHRÊÇÒ»ÖÖÀàËÆÓÚÈýÖØ»º³åµÄÄ£Ê½¡£ËüµÄ´ý³ÊÏÖÍ¼Ïñ¶ÓÁÐÖÐÖ»ÈÝÄÉÒ»¸öÔªËØ£¬ÔÚµÈ´ý´¹Ö±Í¬²½ÐÅºÅÆÚ¼äÈôÓÐÐÂµÄÍ¼ÏñÈë¶Ó£¬ÄÇÃ´¾ÉµÄÍ¼Ïñ»áÖ±½Ó³ö¶Ó¶ø²»±»Êä³öµ½ÆÁÄ»£¨¼´³ö¶Ó²»ÐèÒªµÈ´ý´¹Ö±Í¬²½ÐÅºÅ£¬Òò´Ë²»ÏÞÖÆÖ¡ÂÊ£©£¬³öÏÖÔÚÆÁÄ»ÉÏµÄ×Ü»áÊÇ×îÐÂµÄÍ¼Ïñ¡£
-		*/
+
 		std::vector<VkPresentModeKHR> surfacePresentModes(surfacePresentModeCount);
 		if (Result result = vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &surfacePresentModeCount, surfacePresentModes.data())) {
 			std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to get surface present modes!\nError code: {}\n", int32_t(result));
@@ -692,7 +687,7 @@ namespace vulkan {
 		deviceExtensions = extensionNames;
 	}
 
-	Result GraphicsBase::RecreateSwapchain() {
+	Result GraphicsBase::RecreateSwapchain(bool limitFrame) {
 		VkSurfaceCapabilitiesKHR surfaceCapabilities = {};
 		if (Result result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice, surface, &surfaceCapabilities)) {
 			std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to get physical device surface capabilities!\nError code: {}\n", int32_t(result));
@@ -703,8 +698,28 @@ namespace vulkan {
 			return VK_SUBOPTIMAL_KHR;
 		swapchainCreateInfo.imageExtent = surfaceCapabilities.currentExtent;
 		swapchainCreateInfo.oldSwapchain = swapchain;
+		swapchainCreateInfo.presentMode = VK_PRESENT_MODE_FIFO_KHR;
+		uint32_t surfacePresentModeCount;
+		if (Result result = vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &surfacePresentModeCount, nullptr)) {
+			std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to get the count of surface present modes!\nError code: {}\n", int32_t(result));
+			return result;
+		}
+		if (!surfacePresentModeCount)
+			std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to find any surface present mode!\n"),
+			abort();
+
+		std::vector<VkPresentModeKHR> surfacePresentModes(surfacePresentModeCount);
+		if (Result result = vkGetPhysicalDeviceSurfacePresentModesKHR(physicalDevice, surface, &surfacePresentModeCount, surfacePresentModes.data())) {
+			std::cout << std::format("[ GraphicsBase ] ERROR\nFailed to get surface present modes!\nError code: {}\n", int32_t(result));
+			return result;
+		}
+		if (!limitFrame)
+			for (size_t i = 0; i < surfacePresentModeCount; i++)
+				if (surfacePresentModes[i] == VK_PRESENT_MODE_MAILBOX_KHR) {
+					swapchainCreateInfo.presentMode = VK_PRESENT_MODE_MAILBOX_KHR;
+					break;
+				}
 		Result result = vkQueueWaitIdle(queue_graphics);
-		//½öÔÚµÈ´ýÍ¼ÐÎ¶ÓÁÐ³É¹¦£¬ÇÒÍ¼ÐÎÓë³ÊÏÖËùÓÃ¶ÓÁÐ²»Í¬Ê±µÈ´ý³ÊÏÖ¶ÓÁÐ
 		if (!result &&
 			queue_graphics != queue_presentation)
 			result = vkQueueWaitIdle(queue_presentation);
@@ -722,7 +737,6 @@ namespace vulkan {
 		swapchainImageViews.resize(0);
 		if (result = CreateSwapchainInternal())
 			return result;
-		/*´ýºóÐøÌî³ä*/
 		for (auto& i : callbacks_createSwapchain)
 			i();
 		return VK_SUCCESS;
@@ -766,20 +780,20 @@ namespace vulkan {
 
 	Result GraphicsBase::SwapImage(VkSemaphore semaphore_imageIsAvailable)
 	{
-		//Ïú»Ù¾É½»»»Á´£¨Èô´æÔÚ£©
+		//ï¿½ï¿½ï¿½Ù¾É½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½
 		if (swapchainCreateInfo.oldSwapchain &&
 			swapchainCreateInfo.oldSwapchain != swapchain) {
 			vkDestroySwapchainKHR(device, swapchainCreateInfo.oldSwapchain, nullptr);
 			swapchainCreateInfo.oldSwapchain = VK_NULL_HANDLE;
 		}
-		//»ñÈ¡½»»»Á´Í¼ÏñË÷Òý
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		while (VkResult result = vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, semaphore_imageIsAvailable, VK_NULL_HANDLE, &currentImageIndex))
 			switch (result) {
 			case VK_SUBOPTIMAL_KHR:
 			case VK_ERROR_OUT_OF_DATE_KHR:
 				if (VkResult result = RecreateSwapchain())
 					return result;
-				break; //×¢ÒâÖØ½¨½»»»Á´ºóÈÔÐèÒª»ñÈ¡Í¼Ïñ£¬Í¨¹ýbreakµÝ¹é£¬ÔÙ´ÎÖ´ÐÐwhileµÄÌõ¼þÅÐ¶¨Óï¾ä
+				break; //×¢ï¿½ï¿½ï¿½Ø½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½È¡Í¼ï¿½ï¿½Í¨ï¿½ï¿½breakï¿½Ý¹é£¬ï¿½Ù´ï¿½Ö´ï¿½ï¿½whileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½
 			default:
 				outStream << std::format("[ GraphicsBase ] ERROR\nFailed to acquire the next image!\nError code: {}\n", int32_t(result));
 				return result;

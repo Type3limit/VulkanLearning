@@ -1,7 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include <vulkan/vulkan.h>
 #ifdef VK_RESULT_THROW
-//Çé¿ö1£º¸ù¾Ýº¯Êý·µ»ØÖµÈ·¶¨ÊÇ·ñÅ×Òì³£
+//ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½Ýºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÈ·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ì³£
 class Result {
 	VkResult result;
 public:
@@ -23,18 +23,18 @@ public:
 };
 inline void(*Result::callback_throw)(VkResult);
 
-//Çé¿ö2£ºÈôÅ×Æúº¯Êý·µ»ØÖµ£¬ÈÃ±àÒëÆ÷·¢³ö¾¯¸æ
+//ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #elif defined VK_RESULT_NODISCARD
 struct [[nodiscard]] Result {
 	VkResult result;
 	Result(VkResult result) :result(result) {}
 	operator VkResult() const { return result; }
 };
-//ÔÚ±¾ÎÄ¼þÖÐ¹Ø±ÕÆúÖµÌáÐÑ£¨ÒòÎªÎÒÀÁµÃ×ö´¦Àí£©
+//ï¿½Ú±ï¿½ï¿½Ä¼ï¿½ï¿½Ð¹Ø±ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½Ñ£ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #pragma warning(disable:4834)
 #pragma warning(disable:6031)
 
-//Çé¿ö3£ºÉ¶¶¼²»¸É
+//ï¿½ï¿½ï¿½3ï¿½ï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #else
 using Result = VkResult;
 #endif
@@ -45,17 +45,17 @@ class ArrayRef {
 	T* const pArray = nullptr;
 	size_t count = 0;
 public:
-	//´Ó¿Õ²ÎÊý¹¹Ôì£¬countÎª0
+	//ï¿½Ó¿Õ²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì£¬countÎª0
 	ArrayRef() = default;
-	//´Óµ¥¸ö¶ÔÏó¹¹Ôì£¬countÎª1
+	//ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì£¬countÎª1
 	ArrayRef(T& data) :pArray(&data), count(1) {}
-	//´Ó¶¥¼¶Êý×é¹¹Ôì
+	//ï¿½Ó¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é¹¹ï¿½ï¿½
 	template<size_t elementCount>
 	ArrayRef(T(&data)[elementCount]) : pArray(data), count(elementCount) {}
-	//´ÓÖ¸ÕëºÍÔªËØ¸öÊý¹¹Ôì
+	//ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ôªï¿½Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ArrayRef(T* pData, size_t elementCount) :pArray(pData), count(elementCount) {}
-	//¸´ÖÆ¹¹Ôì£¬ÈôT´øconstÐÞÊÎ£¬¼æÈÝ´Ó¶ÔÓ¦µÄÎÞconstÐÞÊÎ°æ±¾µÄarrayRef¹¹Ôì
-	//24.01.07 ÐÞÕýÒò¸´ÖÆÕ³Ìù²úÉúµÄtypo£º´ÓpArray(&other)¸ÄÎªpArray(other.Pointer())
+	//ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½ì£¬ï¿½ï¿½Tï¿½ï¿½constï¿½ï¿½ï¿½Î£ï¿½ï¿½ï¿½ï¿½Ý´Ó¶ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½constï¿½ï¿½ï¿½Î°æ±¾ï¿½ï¿½arrayRefï¿½ï¿½ï¿½ï¿½
+	//24.01.07 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½typoï¿½ï¿½ï¿½ï¿½pArray(&other)ï¿½ï¿½ÎªpArray(other.Pointer())
 	ArrayRef(const ArrayRef<std::remove_const_t<T>>& other) :pArray(other.Pointer()), count(other.Count()) {}
 	//Getter
 	T* Pointer() const { return pArray; }
@@ -65,7 +65,7 @@ public:
 	T* begin() const { return pArray; }
 	T* end() const { return pArray + count; }
 	//Non-const Function
-	//½ûÖ¹¸´ÖÆ/ÒÆ¶¯¸³Öµ
+	//ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½/ï¿½Æ¶ï¿½ï¿½ï¿½Öµ
 	ArrayRef& operator=(const ArrayRef&) = delete;
 };
 
@@ -91,7 +91,35 @@ handle = VK_NULL_HANDLE;\
 
 #define DefineAddressFunction const decltype(handle)* Address() const { return &handle; }
 
-#define ExecuteOnce(...) { static bool executed = false; if (executed) return __VA_ARGS__; executed = true; }
+#define ExecuteOnce(...)  { static bool executed = false; if (executed) return __VA_ARGS__; executed = true; }
 
-inline auto& outStream = std::cout;//²»ÊÇconstexpr£¬ÒòÎªstd::cout¾ßÓÐÍâ²¿Á´½Ó
+inline auto& outStream = std::cout; //ï¿½ï¿½ï¿½ï¿½constexprï¿½ï¿½ï¿½ï¿½Îªstd::coutï¿½ï¿½ï¿½ï¿½ï¿½â²¿ï¿½ï¿½ï¿½ï¿½
 
+
+
+// make lambda with capturelist can be converted to function pointer
+template<class...Args>
+struct FunctionCallBack {
+	void(*function)(void*, Args...) = nullptr;
+	std::unique_ptr<void, void(*)(void*)> state;
+};
+
+
+template<typename... Args, typename Lambda>
+FunctionCallBack<Args...> Voidfy(Lambda&& l) {
+	
+	using Func = typename std::decay<Lambda>::type;
+	
+	std::unique_ptr<void, void(*)(void*)> data(
+	  new Func(std::forward<Lambda>(l)),
+	  +[](void* ptr) { delete (Func*)ptr; }
+	);
+	
+	return {
+	  +[](void* v, Args... args)->void {
+		Func* f = static_cast<Func*>(v);
+		(*f)(std::forward<Args>(args)...);
+	  },
+	  std::move(data)
+	};
+}

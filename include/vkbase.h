@@ -102,7 +102,7 @@ namespace vulkan
 		void InstanceLayers(const std::vector<const char*>& layerNames);
 		void InstanceExtensions(const std::vector<const char*>& extensionNames);
 		void DeviceExtensions(const std::vector<const char*>& extensionNames);
-		Result RecreateSwapchain();
+		Result RecreateSwapchain(bool limitFrame = true);
 
 		Result WaitIdle() const;
 		Result RecreateDevice(VkDeviceCreateFlags flags = 0);

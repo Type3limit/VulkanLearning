@@ -1,4 +1,4 @@
-#include "glfwgeneral.h"
+﻿#include "glfwgeneral.h"
 using namespace std;
 
 int main()

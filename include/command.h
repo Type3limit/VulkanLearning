@@ -1,20 +1,20 @@
-#include "globalinclude.h"
+ï»¿#include "globalinclude.h"
 #include "vkbase.h"
 namespace vulkan
 {
     class CommandBuffer {
-        friend class CommandPool;//·â×°ÃüÁî³ØµÄcommandPoolÀà¸ºÔğ·ÖÅäºÍÊÍ·ÅÃüÁî»º³åÇø£¬ĞèÒªÈÃÆäÄÜ·ÃÎÊË½ÓĞ³ÉÔ±handle
+        friend class CommandPool;//ï¿½ï¿½×°ï¿½ï¿½ï¿½ï¿½Øµï¿½commandPoolï¿½à¸ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½î»ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ü·ï¿½ï¿½ï¿½Ë½ï¿½Ğ³ï¿½Ô±handle
         VkCommandBuffer handle = VK_NULL_HANDLE;
     public:
         CommandBuffer() = default;
         CommandBuffer(CommandBuffer&& other) noexcept { MoveHandle; }
-        //ÒòÊÍ·ÅÃüÁî»º³åÇøµÄº¯Êı±»ÎÒ¶¨ÒåÔÚ·â×°ÃüÁî³ØµÄcommandPoolÀàÖĞ£¬Ã»Îö¹¹Æ÷
+        //ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½î»ºï¿½ï¿½ï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½ï¿½Ú·ï¿½×°ï¿½ï¿½ï¿½ï¿½Øµï¿½commandPoolï¿½ï¿½ï¿½Ğ£ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         //Getter
         DefineHandleTypeOperator;
         DefineAddressFunction;
         //Const Function
-        //ÕâÀïÃ»¸øinheritanceInfoÉè¶¨Ä¬ÈÏ²ÎÊı£¬ÒòÎªC++±ê×¼ÖĞ¹æ¶¨¶Ô¿ÕÖ¸Õë½âÒıÓÃÊÇÎ´¶¨ÒåĞĞÎª
-        // £¨¾¡¹ÜÔËĞĞÆÚ²»±Ø·¢Éú£¬ÇÒÖÁÉÙMSVC±àÒëÆ÷ÔÊĞíÕâÖÖ´úÂë£©£¬¶øÎÒÓÖÒ»¶¨Òª´«ÒıÓÃ¶ø·ÇÖ¸Õë£¬Òò¶øĞÎ³ÉÁËÁ½¸öBegin(...)
+        //ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½inheritanceInfoï¿½è¶¨Ä¬ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªC++ï¿½ï¿½×¼ï¿½Ğ¹æ¶¨ï¿½Ô¿ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½Ø·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MSVCï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ë£©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½Ö¸ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Begin(...)
         Result Begin(VkCommandBufferUsageFlags usageFlags, VkCommandBufferInheritanceInfo& inheritanceInfo) const {
             inheritanceInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_INFO;
             VkCommandBufferBeginInfo beginInfo = 

@@ -1,10 +1,13 @@
-#include "vkbase.h"
+﻿#include "vkbase.h"
 #include "synchronization.h"
 #include "command.h"
+#include "pipeline.h"
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-#pragma comment(lib, "glfw3.lib") //���ӱ�������ľ�̬��
 
+#include "renderBuffer.h"
+#pragma comment(lib, "glfw3.lib") //���ӱ�������ľ�̬��
+#pragma once
 
 class GlfwWrapper
 {
@@ -29,6 +32,22 @@ public:
 
     GLFWmonitor* MonitorInstance();
 
+
+	static auto& RenderPassAndFramebuffers() {
+		static const auto& rpwf = vulkanLearning::CreateRpwf_Screen();
+		return rpwf;
+	}
+	//该函数用于创建管线布局
+	static void CreateLayout();
+	//该函数用于创建管线
+	static void CreatePipeline();
+
+public:
+
+	static vulkan::PipelineLayout pipelineLayout_triangle;//管线布局
+
+	static vulkan::Pipeline pipeline_triangle;//管线
+
 private:
 
 	void TitleFps();
@@ -40,4 +59,8 @@ private:
 	GLFWwindow* m_pWindow{nullptr};
 	GLFWmonitor* m_pMonitor{ nullptr };
 	std::string m_windowTitle{ "Vulkan Learning" };
+
 };
+
+inline vulkan::PipelineLayout  GlfwWrapper::pipelineLayout_triangle;
+inline vulkan::Pipeline GlfwWrapper::pipeline_triangle;

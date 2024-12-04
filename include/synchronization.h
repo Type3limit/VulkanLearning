@@ -1,4 +1,4 @@
-#include "vkbase.h"
+ï»¿#include "vkbase.h"
 namespace vulkan {
 	class Fence {
 		VkFence handle = VK_NULL_HANDLE;
@@ -7,7 +7,7 @@ namespace vulkan {
 		Fence(VkFenceCreateInfo& createInfo) {
 			Create(createInfo);
 		}
-		//Ä¬ÈÏ¹¹ÔìÆ÷´´½¨Î´ÖÃÎ»µÄÕ¤À¸
+		//Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½Î»ï¿½ï¿½Õ¤ï¿½ï¿½
 		Fence(VkFenceCreateFlags flags = 0) {
 			Create(flags);
 		}
@@ -29,7 +29,7 @@ namespace vulkan {
 				outStream << std::format("[ fence ] ERROR\nFailed to reset the fence!\nError code: {}\n", int32_t(result));
 			return result;
 		}
-		//ÒòÎª¡°µÈ´ýºóÁ¢¿ÌÖØÖÃ¡±µÄÇéÐÎ¾­³£³öÏÖ£¬¶¨Òå´Ëº¯Êý
+		//ï¿½ï¿½Îªï¿½ï¿½ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½ï¿½ï¿½
 		Result WaitAndReset() const {
 			VkResult result = Wait();
 			result || (result = Reset());
@@ -37,7 +37,7 @@ namespace vulkan {
 		}
 		Result Status() const {
 			VkResult result = vkGetFenceStatus(GraphicsBase::Base().Device(), handle);
-			if (result < 0) //vkGetFenceStatus(...)³É¹¦Ê±ÓÐÁ½ÖÖ½á¹û£¬ËùÒÔ²»ÄÜ½ö½öÅÐ¶ÏresultÊÇ·ñ·Ç0
+			if (result < 0) //vkGetFenceStatus(...)ï¿½É¹ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½Ü½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½resultï¿½Ç·ï¿½ï¿½0
 				outStream << std::format("[ fence ] ERROR\nFailed to get the status of the fence!\nError code: {}\n", int32_t(result));
 			return result;
 		}
@@ -64,7 +64,7 @@ namespace vulkan {
 		Semaphore(VkSemaphoreCreateInfo& createInfo) {
 			Create(createInfo);
 		}
-		//Ä¬ÈÏ¹¹ÔìÆ÷´´½¨Î´ÖÃÎ»µÄÐÅºÅÁ¿
+		//Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½Î»ï¿½ï¿½ï¿½Åºï¿½ï¿½ï¿½
 		Semaphore(/*VkSemaphoreCreateFlags flags*/) {
 			Create();
 		}

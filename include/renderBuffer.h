@@ -1,3 +1,4 @@
+ï»¿#pragma once
 #include "vkbase.h"
 
 namespace vulkanLearning
@@ -6,7 +7,7 @@ namespace vulkanLearning
         vulkan::RenderPass renderPass;
         std::vector<vulkan::Framebuffer> framebuffers;
     };
-    const auto& CreateRpwf_Screen() {
+    inline const auto& CreateRpwf_Screen() {
         static renderPassWithFramebuffers rpwf;
 
         VkAttachmentDescription attachmentDescription = {
@@ -62,7 +63,7 @@ namespace vulkanLearning
             };
         CreateFramebuffers();
 
-        ExecuteOnce(rpwf); //·ÀÖ¹ÔÙ´Îµ÷ÓÃ±¾º¯ÊýÊ±£¬ÖØ¸´Ìí¼Ó»Øµ÷º¯Êý
+        ExecuteOnce(rpwf); //ï¿½ï¿½Ö¹ï¿½Ù´Îµï¿½ï¿½Ã±ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ø¸ï¿½ï¿½ï¿½ï¿½Ó»Øµï¿½ï¿½ï¿½ï¿½ï¿½
         vulkan::GraphicsBase::Base().AddCallback_CreateSwapchain(CreateFramebuffers);
         vulkan::GraphicsBase::Base().AddCallback_DestroySwapchain(DestroyFramebuffers);
         return rpwf;

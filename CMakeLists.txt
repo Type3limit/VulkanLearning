@@ -32,7 +32,7 @@ src/vkbase.cpp
 include/helper.h 
 include/synchronization.h 
 include/command.h 
-include/renderBuffer.h)
+include/renderBuffer.h "include/shader.h" "include/pipeline.h")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin/${BUILD_TYPE})
 
@@ -88,5 +88,9 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE glfw)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE singleton::singleton)
 
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/shader/Triangle.frag.spv DESTINATION 
+ ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shader)
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/shader/Triangle.vert.spv DESTINATION 
+ ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/shader)
 
 # TODO: 如有需要，请添加测试并安装目标。
