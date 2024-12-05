@@ -4,9 +4,8 @@
 #include "pipeline.h"
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-
-#include "renderBuffer.h"
-#pragma comment(lib, "glfw3.lib") //���ӱ�������ľ�̬��
+#include "rpwf.h"
+#pragma comment(lib, "glfw3.lib")
 #pragma once
 
 class GlfwWrapper
@@ -64,3 +63,9 @@ private:
 
 inline vulkan::PipelineLayout  GlfwWrapper::pipelineLayout_triangle;
 inline vulkan::Pipeline GlfwWrapper::pipeline_triangle;
+
+
+struct Vertex {
+	glm::vec2 position;
+	glm::vec4 color;
+};

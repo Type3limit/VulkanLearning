@@ -1,4 +1,5 @@
-﻿#include "globalinclude.h"
+﻿#pragma once
+#include "globalinclude.h"
 #include "vkbase.h"
 namespace vulkan
 {

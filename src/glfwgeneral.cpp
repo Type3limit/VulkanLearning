@@ -1,6 +1,7 @@
 ﻿#include "glfwgeneral.h"
-#include "renderBuffer.h"
+#include "rpwf.h"
 #include "shader.h"
+#include <buffer.h>
 #define USE_FRAME_IN_FLIGHT 1
 
 GlfwWrapper* g_pWrapperInstance = nullptr;
@@ -49,6 +50,14 @@ int GlfwWrapper::RunWindowLoop()
 		CreatePipeline(); 
 
         VkClearValue clearColor = {.color = {1.f, 0.f, 0.f, 1.f}};
+		Vertex vertices[] = {
+	{ {  .0f, -.5f }, { 1, 0, 0, 1 } },//红色
+	{ { -.5f,  .5f }, { 0, 1, 0, 1 } },//绿色
+	{ {  .5f,  .5f }, { 0, 0, 1, 1 } } //蓝色
+		};
+		vulkan::VertexBuffer vertexBuffer(sizeof vertices);
+		vertexBuffer.TransferData(vertices);
+
 #if USE_FRAME_IN_FLIGHT
 		//使用即时帧
         struct perFrameObjects_t
@@ -62,7 +71,7 @@ int GlfwWrapper::RunWindowLoop()
         vulkan::CommandPool commandPool(vulkan::GraphicsBase::Base().QueueFamilyIndex_Graphics(),
                                         VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT);
         for (auto& i : perFrameObjects)
-            commandPool.AllocateBuffers(i.commandBuffer);
+			commandPool.AllocateBuffers(i.commandBuffer);
         uint32_t i = 0;
 
         while (!glfwWindowShouldClose(m_pWindow))
@@ -71,8 +80,8 @@ int GlfwWrapper::RunWindowLoop()
             while (glfwGetWindowAttrib(m_pWindow, GLFW_ICONIFIED))
                 glfwWaitEvents();
 
-            const auto& [fence, semaphore_imageIsAvailable, semaphore_renderingIsOver, commandBuffer] = perFrameObjects[
-                i];
+            const auto& [fence, semaphore_imageIsAvailable, semaphore_renderingIsOver, commandBuffer] = 
+				perFrameObjects[i];
             i = (i + 1) % vulkan::GraphicsBase::Base().SwapchainImageCount();
 
             fence.WaitAndReset();
@@ -156,8 +165,8 @@ void GlfwWrapper::CreateLayout()
 
 void GlfwWrapper::CreatePipeline()
 {
-	static vulkan::ShaderModule vert("./shader/Triangle.vert.spv");
-	static vulkan::ShaderModule frag("./shader/Triangle.frag.spv");
+	static vulkan::ShaderModule vert("./shader/Vertex.vert.spv");
+	static vulkan::ShaderModule frag("./shader/Vertex.frag.spv");
 	static VkPipelineShaderStageCreateInfo shaderStageCreateInfos_triangle[2] = {
 		vert.StageCreateInfo(VK_SHADER_STAGE_VERTEX_BIT),
 		frag.StageCreateInfo(VK_SHADER_STAGE_FRAGMENT_BIT)
@@ -174,6 +183,12 @@ void GlfwWrapper::CreatePipeline()
 		pipelineCiPack.UpdateAllArrays();
 		pipelineCiPack.createInfo.stageCount = 2;
 		pipelineCiPack.createInfo.pStages = shaderStageCreateInfos_triangle;
+		//数据来自0号顶点缓冲区，输入频率是逐顶点输入
+		pipelineCiPack.vertexInputBindings.emplace_back(0, sizeof(Vertex), VK_VERTEX_INPUT_RATE_VERTEX);
+		//location为0，数据来自0号顶点缓冲区，vec2对应VK_FORMAT_R32G32_SFLOAT，用offsetof计算position在vertex中的起始位置
+		pipelineCiPack.vertexInputAttributes.emplace_back(0, 0, VK_FORMAT_R32G32_SFLOAT, offsetof(Vertex, position));
+		//location为1，数据来自0号顶点缓冲区，vec4对应VK_FORMAT_R32G32B32A32_SFLOAT，用offsetof计算color在vertex中的起始位置
+		pipelineCiPack.vertexInputAttributes.emplace_back(1, 0, VK_FORMAT_R32G32B32A32_SFLOAT, offsetof(Vertex, color));
 		pipeline_triangle.Create(pipelineCiPack);
 		};
 

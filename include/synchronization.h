@@ -1,4 +1,5 @@
-﻿#include "vkbase.h"
+﻿#pragma once
+#include "vkbase.h"
 namespace vulkan {
 	class Fence {
 		VkFence handle = VK_NULL_HANDLE;

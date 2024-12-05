@@ -93,7 +93,8 @@ handle = VK_NULL_HANDLE;\
 
 #define ExecuteOnce(...)  { static bool executed = false; if (executed) return __VA_ARGS__; executed = true; }
 
-inline auto& outStream = std::cout; //����constexpr����Ϊstd::cout�����ⲿ����
+//set outStream to std::cout,but not static because std::cout link outside
+inline auto& outStream = std::cout; 
 
 
 

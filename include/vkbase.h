@@ -45,6 +45,8 @@ namespace vulkan
 		   |在将一张图像用于渲染或其他类型的写入时，已渲染好的图像可以被呈现引擎读取，如此交替呈现在窗口中的数张图像的集合即为交换链
 		----------------------------------------------
 		*/
+	class GraphicsBasePlus;
+
 	class GraphicsBase
 	{
 	
@@ -144,9 +146,13 @@ namespace vulkan
 		void AddCallback_DestroyDevice(void(*function)()) {
 			callbacks_destroyDevice.push_back(function);
 		}
+        //*pPlus的Getter
+		static GraphicsBasePlus& Plus() { return *singleton.pPlus; }
+		//*pPlus的Setter，只允许设置pPlus一次
+		static void Plus(GraphicsBasePlus& plus) { if (!singleton.pPlus) singleton.pPlus = &plus; }
 	private:
 
-
+		GraphicsBasePlus* pPlus = nullptr;
 		uint32_t apiVersion = VK_API_VERSION_1_0;
 		VkInstance instance;
 		VkPhysicalDevice physicalDevice;
