@@ -1,6 +1,6 @@
 # Vulkan learning 
 ---
-A sample for vulkan with glfw and glm 
+A sample for vulkan&&glfw&&glm with cmake build 
 
 based on this [***Tutorial(EasyVulkan)***](https://easyvulkan.github.io/)
 
